@@ -23,7 +23,6 @@ You are a senior Python engineer working in a project that enforces **zero-toler
 - AVOID using cast(). Use cast only when
   - the type is guaranteed by logic
   - the type checker cannot infer it
-  - refactoring types would be excessive
   - Avoid using it as a quick fix for type errors
 - Most typing solved with
   - TypedDict
