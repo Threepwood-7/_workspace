@@ -202,6 +202,60 @@ class CleanupCliTests(unittest.TestCase):
         self.assertTrue((self.workspace_root / "repo" / "build").exists())
         self.assertTrue((self.workspace_root / "repo" / ".coverage").exists())
 
+    def test_print_plan_dry_run_shows_all_paths(self) -> None:
+        """Show the full target list during dry-run output."""
+
+        targets = [
+            cleanup.CleanupTarget(
+                self.workspace_root / "repo" / f"cache-{index}" / "__pycache__",
+                "cache",
+                True,
+            )
+            for index in range(23)
+        ]
+        request = cleanup.CleanupRequest(
+            scopes=frozenset({cleanup.CleanupScope.BASIC}),
+            dry_run=True,
+            source_label="test",
+        )
+
+        with mock.patch("builtins.print") as print_mock:
+            cleanup.print_plan(self.workspace_root, request, targets)
+
+        printed_messages = "\n".join(
+            " ".join(str(argument) for argument in call.args)
+            for call in print_mock.call_args_list
+        )
+        self.assertNotIn("... and", printed_messages)
+        self.assertIn("cache-22", printed_messages)
+
+    def test_print_plan_delete_shows_all_paths(self) -> None:
+        """Show the full target list before a real deletion."""
+
+        targets = [
+            cleanup.CleanupTarget(
+                self.workspace_root / "repo" / f"build-{index}",
+                "build",
+                True,
+            )
+            for index in range(23)
+        ]
+        request = cleanup.CleanupRequest(
+            scopes=frozenset({cleanup.CleanupScope.BASIC, cleanup.CleanupScope.DEEP}),
+            dry_run=False,
+            source_label="test",
+        )
+
+        with mock.patch("builtins.print") as print_mock:
+            cleanup.print_plan(self.workspace_root, request, targets)
+
+        printed_messages = "\n".join(
+            " ".join(str(argument) for argument in call.args)
+            for call in print_mock.call_args_list
+        )
+        self.assertNotIn("... and", printed_messages)
+        self.assertIn("build-22", printed_messages)
+
     def test_run_cleanup_dry_run_preserves_venv_targets(self) -> None:
         """Leave venv directories untouched during dry-run execution."""
 

@@ -23,7 +23,6 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 EXIT_USAGE = 2
 EXIT_CANCELLED = 3
-MAX_PREVIEW_PATHS = 20
 
 REPARSE_POINT_ATTRIBUTE = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
 
@@ -485,26 +484,22 @@ def summarize_categories(targets: Sequence[CleanupTarget]) -> list[str]:
     ]
 
 
-def preview_paths(workspace_root: Path, targets: Sequence[CleanupTarget]) -> list[str]:
-    """Build preview lines for planned targets.
+def render_paths(workspace_root: Path, targets: Sequence[CleanupTarget]) -> list[str]:
+    """Build display lines for planned target paths.
 
     Args:
         workspace_root: Workspace root used to show relative paths.
-        targets: Targets to preview.
+        targets: Targets to display.
 
     Returns:
-        Preview lines capped to a concise size.
+        Display lines for the planned target paths.
     """
 
     ordered_paths = sorted(
         (target.relative_to(workspace_root) for target in targets),
         key=lambda path: str(path).lower(),
     )
-    lines = [f"  - {path}" for path in ordered_paths[:MAX_PREVIEW_PATHS]]
-    hidden_count = len(ordered_paths) - len(lines)
-    if hidden_count > 0:
-        lines.append(f"  - ... and {hidden_count} more")
-    return lines
+    return [f"  - {path}" for path in ordered_paths]
 
 
 def print_plan(workspace_root: Path, request: CleanupRequest, targets: Sequence[CleanupTarget]) -> None:
@@ -527,7 +522,7 @@ def print_plan(workspace_root: Path, request: CleanupRequest, targets: Sequence[
     for line in summarize_categories(targets):
         print(line)
     print("Paths:")
-    for line in preview_paths(workspace_root, targets):
+    for line in render_paths(workspace_root, targets):
         print(line)
 
 
