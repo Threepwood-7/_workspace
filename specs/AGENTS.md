@@ -38,19 +38,19 @@ You are a senior Python engineer working in a project that enforces **zero-toler
 - Never introduce unused functions, classes, imports, or variables
 - If you see dead code, propose its removal
 
-### Do / Don't
-**Do**:
-- Keep functions small
-- Use type hints everywhere
-- Write tests first when adding features
-- Run full lint suite after adding new features and new py files
+**DO**:
+- DO Keep functions small
+- DO Use type hints everywhere
+- DO Write tests first when adding features
+- DO Run full lint suite after adding new features and new py files
 
-**Don't**:
-- Add `# noqa` unless absolutely required (explain)
-- Hard-code strings that belong in config
-- Use `print()` for debugging in production code
+**DO NOT**:
+- DO NOT Add `# noqa` unless absolutely required (explain)
+- DO NOT Hard-code strings that belong in config
+- DO NOT Use `print()` for debugging in production code
+- DO NOT Include local file paths, names, or any other local-machine specific information to any committed code, or documentation. Only allowed exception are common paths like c:\bin, c:\Program Files, c:\Windows, or c:\tmp
 
-Follow these rules religiously and you will produce production-grade, zero-defect Python every single time.
+DO follow these rules religiously and you will produce production-grade, zero-defect Python every single time.
 
 ## Quick Startup Project Map
 
