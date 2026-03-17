@@ -7,8 +7,9 @@ You are a senior Python engineer working in a project that enforces **zero-toler
 **Before you output any code you MUST mentally verify it passes all of these checks:**
 
 ### 1. Toolchain Enforcement (Non-negotiable)
+- The goal is to produce code that is compliant in advance, so to minimize the rework needed after linting
 - Code must pass **100%** of checks: fmt, fix, types, deps, deadcode, complexity, policy
-- If you cannot make it pass, say exactly what fails and propose the fix.
+- If you cannot make it pass, say exactly what fails and propose the fix
 
 ### 2. Code Style & Structure (Ruff-enforced)
 - Line length exactly as dictated by ruff
@@ -59,6 +60,7 @@ DO follow these rules religiously and you will produce production-grade, zero-de
 - `git-statuz` - PySide viewer for Git status and history.
 - `many-panelz-explorer` - multi-panel Windows-focused file explorer built with PySide6.
 - `mp3gain-gui-py` - PySide6 port of MP3Gain GUI for ReplayGain analysis and gain adjustment.
+- `pdf-search-downloader-ui` - PySide6 web pdf searcher.
 - `prowlarr-ui` - Windows desktop application for searching Prowlarr indexers with Everything integration.
 - `qbiremo-enhanced` - advanced qBittorrent GUI client built with PySide6.
 - `threep-commons` - shared reusable runtime and utility library for the Threepwood PySide project family.
@@ -68,18 +70,18 @@ DO follow these rules religiously and you will produce production-grade, zero-de
 
 ## Standardization
 
-- Print the *local PC time* HH:mm:ss time alongside messages by doing an `ECHO %TIME%`, so I know what you are doing.
-- Always load `MEMORY.md` together with this file before starting work.
 - `aatemplate` is the source Copier template project for this workspace. Code quality checks should be applied to it too.
 - Validate `aatemplate` by rendering fresh sample projects and running quality checks in the rendered output; do not treat the raw `aatemplate` repo root as a normal Hatch project, and do not expect `hatch run lint:*` to work there directly.
 - All other sibling projects under this directory are Copier-managed targets that should be synced/updated from `aatemplate` (not treated as the template source).
 - Ensure to comment methods, classes, and complex logic with concise but effective and easy to parse comments.
+- Only two repos currently contain `setup_wizard.py`: `arr-helper-ui` and `prowlarr-ui`; this file is not template-managed in `aatemplate`.
 - Ensure to follow best design standards, favor composition, Separation of Concerns, DRY, PEP 20
 - Prefer Python pathlib Path usage, and leverage PureWindowsPath to format Windows Paths.
 - Ensure to perform code linting, type checking, complexity checks, deadcode checks, basedpyright, deptry, ruff, and formatting with `hatch run lint:{check,fmt,types,deps,deadcode,complexity,policy}` whenever a significant change or refactoring is introduced.
 - All new or modified code MUST pass linting, Ruff, and basedpyright checks as real fixes, not by suppression.
 - Do NEVER suppress, skip, downgrade, or config-disable lint, Ruff, basedpyright, or related quality checks for new code. No `noqa`, no `type: ignore`, no per-file ignores, no rule downgrades, and no temporary bypasses unless the user explicitly approves an exception for an unavoidable framework constraint.
 - Never generate or keep `.bat` , `.cmd` , `.ps1` scripts in template outputs; use Python scripts instead.
+- `aatemplate` is a Copier template repo without a root `pyproject.toml`; `uv sync` is not applicable there.
 - git commit messages should be written in Shakespeare-style old english.
 - All projects under this directory should follow the same coding guidelines, high-level design approaches, configuration handling, etc. They should all be consistent among each other.
 - This set of applications is targeted to technical users that love an effective minimalist UI approach, and great technical details
@@ -87,12 +89,12 @@ DO follow these rules religiously and you will produce production-grade, zero-de
 
 ## Command Execution Rule
 
-- Be AWARE that you are running on Windows 10, PowerShell version 5.1
-- Prefer Python for non-trivial system command execution; use PowerShell only for basic commands.
-- When generating temporary PowerShell scripts, avoid nested quote/escape patterns that can break parsing.
-- Before execution, keep generated scripts parse-safe with minimal quoting complexity.
-- DOS commands will require confirmation, especially any DOS command that involves a FOR or FORFILES
-- You are allowed to use c:\tmp\pycompa to create temporary files, be SURE not to change anything outside of it
+- Be AWARE that you are running on Windows 10, PowerShell 7
+- ENSURE TO USE "C:\Program Files\PowerShell\7\pwsh.exe" and not the "Legacy" "powershell.exe"
+- Remember in your global memory errors and issues when generating PowerShell scripts, so to avoid the same issues again.
+- Ensure not to hit Windows command-length limits, so break commands into file-sized patches or use supporting python scripts instead.
+- User shorthand: `cuus` means "commit and push to GitHub."
+- You are allowed to use the directory `c:\tmp\pycompa` to create temporary files, be SURE not to change anything outside of it
 - ALWAYS use LF line-endings, do NOT use CRLF
 - do NOT use UTF8 BOM
 - Treat this as the default behavior for ALL tasks in this repository.
