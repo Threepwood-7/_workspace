@@ -94,7 +94,8 @@ DO follow these rules religiously and you will produce production-grade, zero-de
 - Remember in your global memory errors and issues when generating PowerShell scripts, so to avoid the same issues again.
 - Ensure not to hit Windows command-length limits, so break commands into file-sized patches or use supporting python scripts instead.
 - User shorthand: `cuus` means "commit and push to GitHub."
-- You are allowed to use the directory `c:\tmp\pycompa` to create temporary files, be SURE not to change anything outside of it
+- You are allowed to use the companion directory `c:\tmp\pycompa` to create temporary files, be SURE not to change anything outside of it
+- when running tests, do NOT overwrite the current user appdata and localappdata, use the companion directory `c:\tmp\pycompa\_USERPROFILE` instead
 - ALWAYS use LF line-endings, do NOT use CRLF
 - do NOT use UTF8 BOM
 - Treat this as the default behavior for ALL tasks in this repository.
